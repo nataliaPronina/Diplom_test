@@ -22,8 +22,8 @@ services:
       - ./docker:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: db
-      POSTGRES_USER: nata
-      POSTGRES_PASSWORD: 312230
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: pass
 
 
   node-app:
