@@ -35,4 +35,5 @@ test {
     systemProperty 'db.user', System.getProperty('db.user', "app")
     systemProperty 'db.password', System.getProperty('db.password', "pass")
     systemProperty 'test.locale', System.getProperty('test.locale', "en")
+
 }

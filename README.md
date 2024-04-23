@@ -15,12 +15,13 @@
 ## Шаги воспроизведения:  
 1. Запустить Docker Desktop.
 2. Открыть проект в IntelliJ Idea.
-3. В терминале выполнить команду для подключения Docker docker-compose up
-4. В терминале выполнить команду для запуска учебного приложения java -jar aqa-shop.jar -port=8080 
-5. В терминале выполнить команду для запуска эмулятора банковских сервисов npm start -port=9999
-6. В терминале выполнить команды для запуска тестов:  
+3. В терминале выполнить команду для подключения Docker docker-compose up --build
+4. В терминале выполнить команду для запуска учебного приложения:  
+   Для MySQL java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar aqa-shop.jar  
+   Для PostgresQL java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar aqa-shop.jar
+5. В терминале выполнить команды для запуска тестов:  
    Для MySQL: ./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app"
    Для PostgreSQL: ./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"
-7. В терминале выполнить команду для создания отчета ./gradlew allureServe
+6. В терминале выполнить команду для создания отчета ./gradlew allureServe
 
-
+ 
