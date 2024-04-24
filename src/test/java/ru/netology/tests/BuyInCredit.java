@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SQLHelper;
 import ru.netology.pages.BuyInCreditForm;
+import ru.netology.pages.JustBuyForm;
 import ru.netology.pages.MainForm;
 
 import java.sql.SQLException;
@@ -35,9 +36,9 @@ public class BuyInCredit {
         SelenideLogger.removeListener("allure");
     }
 
-    @Test
+    @Test //N19
     void checkCardApprovedForCredit() {
-        mainForm.creditPage();
+        mainForm.creditForm();
         var cardInfo = DataHelper.getApprovedCard();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
@@ -46,9 +47,9 @@ public class BuyInCredit {
     }
 
 
-    @Test
+    @Test //N20
     void checkCardDeclinedForCredit() {
-        mainForm.creditPage();
+        mainForm.creditForm();
         var cardInfo = DataHelper.getDeclinedCard();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
@@ -56,10 +57,18 @@ public class BuyInCredit {
         assertEquals("DECLINED", SQLHelper.getCardRequestStatus());
     }
 
-
-    @Test
+    @Test //N21 - баг
+    void checkAllNullSymbolsNumberForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getAllNullSymbolsNumberCard();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongFormat();
+        assertEquals("0", SQLHelper.getCardRequestStatus());
+    }
+    @Test //N22
     void checkInvalidCardNumberForCredit() {
-        mainForm.creditPage();
+        mainForm.creditForm();
         var cardInfo = DataHelper.getRandomInvalidCard();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
@@ -67,20 +76,29 @@ public class BuyInCredit {
         assertEquals("0", SQLHelper.getOrderCount());
     }
 
-    @Test
-    void checkRandomValidCardForCredit() {
-        mainForm.creditPage();
-        var cardInfo = DataHelper.getRandomValidCard();
+    @Test //N23
+    void checkInvalidNullMonthForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getRandomInvalidMonthNullSymbol();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
-        creditPage.checkErrorNotification();
+        creditPage.checkWrongExpiryDateNotification();
         assertEquals("0", SQLHelper.getOrderCount());
     }
 
-    @Test
+    @Test //N24
     void checkInvalidMonthForCredit() {
-        mainForm.creditPage();
+        mainForm.creditForm();
         var cardInfo = DataHelper.getRandomInvalidMonth();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongExpiryDateNotification();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
+    @Test // N25
+    void checkInvalidPastMonthForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getRandomInvalidPastMonth();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
         creditPage.checkWrongExpiryDateNotification();
@@ -88,22 +106,58 @@ public class BuyInCredit {
     }
 
 
-
-    @Test
-    void checkInvalidYearForCredit() {
-        mainForm.creditPage();
-        var cardInfo = DataHelper.getRandomInvalidYear();
+    @Test //N26
+    void checkInvalidPastYearForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getRandomInvalidPastYear();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
         creditPage.checkCardExpiredNotification();
         assertEquals("0", SQLHelper.getOrderCount());
     }
 
+    @Test //N27
+    void checkInvalidFutureYearForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getRandomInvalidFutureYear();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongExpiryDateNotification();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
 
+    @Test //N28 - баг
+    void checkRandomOnlyFirstNameForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getRandomOnlyFirstName();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongFormat();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
 
-    @Test
-    void checkInvalidCvcForCredit() {
-        mainForm.creditPage();
+    @Test //N29 - баг
+    void checkRandomOnlyLastNameForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getRandomOnlyLastName();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongFormat();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
+
+    @Test //N30 баг
+    void checkRussianNameForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getRandomRussianName();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongFormat();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
+    @Test //N31
+    void checkInvalidCvcTwoSymbolsForCredit() {
+        mainForm.creditForm();
         var cardInfo = DataHelper.getRandomInvalidCvc();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
@@ -111,38 +165,51 @@ public class BuyInCredit {
         assertEquals("0", SQLHelper.getOrderCount());
     }
 
+    @Test //N32
+    void checkCardNumberEmptyFieldForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getEmptyCard();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongFormat();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
 
-    @Test
-    void checkEmptyFieldForCredit() {
-        mainForm.creditPage();
+    @Test //N33
+    void checkMonthEmptyFieldForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getMonthEmptyFieldCard();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongFormat();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
+
+    @Test //N34
+    void checkYearEmptyFieldForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getYearEmptyFieldCard();
+        var creditPage = new BuyInCreditForm();
+        creditPage.fillInCardData(cardInfo);
+        creditPage.checkWrongFormat();
+        assertEquals("0", SQLHelper.getOrderCount());
+    }
+    @Test //N35
+    void checkOwnerEmptyFieldForCredit() {
+        mainForm.creditForm();
         var cardInfo = DataHelper.getOwnerEmptyFieldCard();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
         creditPage.checkFieldRequiredNotification();
         assertEquals("0", SQLHelper.getOrderCount());
     }
-
-
-    @Test
-    void checkFullNameForCredit() {
-        mainForm.creditPage();
-        var cardInfo = DataHelper.getRandomFullName();
+    @Test //N36
+    void checkCvcEmptyFieldForCredit() {
+        mainForm.creditForm();
+        var cardInfo = DataHelper.getCvcEmptyFieldCard();
         var creditPage = new BuyInCreditForm();
         creditPage.fillInCardData(cardInfo);
         creditPage.checkWrongFormat();
         assertEquals("0", SQLHelper.getOrderCount());
     }
-
-
-    @Test
-    void checkRussianNameForCredit() {
-        mainForm.creditPage();
-        var cardInfo = DataHelper.getRandomRussianName();
-        var creditPage = new BuyInCreditForm();
-        creditPage.fillInCardData(cardInfo);
-        creditPage.checkWrongFormat();
-        assertEquals("0", SQLHelper.getOrderCount());
-    }
-
-
 }

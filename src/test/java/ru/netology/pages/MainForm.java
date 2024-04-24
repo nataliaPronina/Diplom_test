@@ -8,20 +8,20 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class MainForm {
     private SelenideElement heading = $(byText("Путешествие дня"));
-    private SelenideElement buyButton = $("button['button button_size_m button_theme_alfa-on-white']");
-    private SelenideElement buyInCreditButton = $("button['button button_view_extra button_size_m button_theme_alfa-on-white']");
+    private SelenideElement buyButton = $(byText("Купить"));
+    private SelenideElement buyInCreditButton = $(byText("Купить в кредит"));
 
 
     public MainForm() {
         heading.shouldBe(visible);
     }
 
-    public JustBuyForm orderCardPage() {
+    public JustBuyForm cardForm() {
         buyButton.click();
         return new JustBuyForm();
     }
 
-    public BuyInCreditForm creditPage() {
+    public BuyInCreditForm creditForm () {
         buyInCreditButton.click();
         return new BuyInCreditForm();
     }
