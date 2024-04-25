@@ -7,7 +7,7 @@
 - успешных 28 (72%)  
 - неуспешных 10  
 
-![отчет Gradle](docs/отчет.png)
+![отчет Gradle](https://github.com/nataliaPronina/Diplom_test/blob/main/docs/%D0%BE%D1%82%D1%87%D0%B5%D1%82.png)
 
 Подробное описание найденных багов <https://github.com/nataliaPronina/Diplom_test/issues>
 
