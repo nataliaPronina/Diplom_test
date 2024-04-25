@@ -22,6 +22,6 @@
 5. В терминале выполнить команды для запуска тестов:  
    Для MySQL: ./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app"
    Для PostgreSQL: ./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"
-6. В терминале выполнить команду для создания отчета ./gradlew allureServe
+6. В терминале открыть ссылку для создания отчета Gradle.
 
  
